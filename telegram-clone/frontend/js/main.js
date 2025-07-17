@@ -102,7 +102,7 @@ function setupAuthHandlers() {
         const data = Object.fromEntries(formData);
         
         try {
-            const response = await fetch('http://localhost:3000/api/auth/register', {
+            const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -128,7 +128,7 @@ function setupAuthHandlers() {
 async function initializeApp(token) {
     try {
         // Проверяем токен
-        const response = await fetch('http://localhost:3000/api/auth/me', {
+        const response = await fetch('/api/auth/me', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -327,7 +327,7 @@ async function uploadFile(file) {
     formData.append('file', file);
     
     try {
-        const response = await fetch('http://localhost:3000/api/upload', {
+        const response = await fetch('/api/upload', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -462,7 +462,7 @@ function showMainScreen() {
 // ===== ЧАТЫ =====
 async function loadChats() {
     try {
-        const response = await fetch('http://localhost:3000/api/chats', {
+        const response = await fetch('/api/chats', {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         
@@ -994,7 +994,7 @@ function handleUserTyping(data) {
 // ===== ПОЛЬЗОВАТЕЛИ =====
 async function loadUsers() {
     try {
-        const response = await fetch('http://localhost:3000/api/users', {
+        const response = await fetch('/api/users', {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         
@@ -1029,7 +1029,7 @@ async function loadUsers() {
 
 async function createPrivateChat(targetUserId) {
     try {
-        const response = await fetch('http://localhost:3000/api/chats/private', {
+        const response = await fetch('/api/chats/private', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -1205,7 +1205,7 @@ window.saveSettings = async function() {
     }
     
     try {
-        const response = await fetch('http://localhost:3000/api/users/profile', {
+        const response = await fetch('/api/users/profile', {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
