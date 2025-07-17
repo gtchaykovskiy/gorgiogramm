@@ -1074,9 +1074,6 @@ function formatTime(timestamp) {
     // Используй только время, не дату
     return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 }
-    
-    return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
-}
 
 function escapeHtml(text) {
     const div = document.createElement('div');
