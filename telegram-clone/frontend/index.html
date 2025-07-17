@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Georgiogramm</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    
+    <div id="auth-screen" class="screen active">
+        <div class="auth-container">
+            <h1>Georgiogramm</h1>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Вход</button>
+                <button class="tab-btn" data-tab="register">Регистрация</button>
+            </div>
+            
+            <form id="login-form" class="auth-form active">
+                <input type="text" name="username" placeholder="Имя пользователя" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <button type="submit">Войти</button>
+            </form>
+            
+            <form id="register-form" class="auth-form">
+                <input type="text" name="username" placeholder="Имя пользователя" required>
+                <input type="text" name="displayName" placeholder="Отображаемое имя" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+            
+            <div id="auth-error" class="error-message"></div>
+        </div>
+    </div>
+    
+    
+    <div id="main-screen" class="screen">
+        <div class="app-container">
+            
+            <aside class="sidebar">
+                <header class="sidebar-header">
+                    <button id="menu-btn" class="icon-btn">
+                        <i class="material-icons">menu</i>
+                    </button>
+                    
+                    
+                    <div id="dropdown-menu" class="dropdown-menu">
+                        <div class="menu-header">
+                            <img class="menu-avatar" src="" alt="">
+                            <div class="menu-user-info">
+                                <div class="menu-display-name"></div>
+                                <div class="menu-username"></div>
+                            </div>
+                        </div>
+                        <div class="menu-divider"></div>
+                        <button class="menu-item" onclick="showSettings()">
+                            <i class="material-icons">settings</i>
+                            Настройки
+                        </button>
+                        <button class="menu-item" onclick="logout()">
+                            <i class="material-icons">exit_to_app</i>
+                            Выйти
+                        </button>
+                    </div>
+                    
+                    <input type="search" id="search-input" placeholder="Поиск">
+                    <button id="new-chat-btn" class="icon-btn">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </header>
+                
+                <div id="chats-list" class="chats-list">
+                    
+                </div>
+            </aside>
+            
+            
+            <main class="chat-area">
+                <div id="no-chat-selected" class="no-chat">
+                    <i class="material-icons">chat_bubble_outline</i>
+                    <p>Выберите чат для начала общения</p>
+                </div>
+                
+                <div id="chat-container" class="chat-container" style="display: none;">
+                    <header class="chat-header">
+                        <button class="icon-btn mobile-back">
+                            <i class="material-icons">arrow_back</i>
+                        </button>
+                        <div class="chat-info">
+                            <img id="chat-avatar" class="avatar" src="">
+                            <div>
+                                <h3 id="chat-name"></h3>
+                                <span id="chat-status" class="status"></span>
+                            </div>
+                        </div>
+                        <button class="icon-btn">
+                            <i class="material-icons">more_vert</i>
+                        </button>
+                    </header>
+                    
+                    <div id="messages-container" class="messages-container">
+                        
+                    </div>
+                    
+                    <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                        <span></span> печатает<span class="dots">...</span>
+                    </div>
+                    
+                    <footer class="chat-footer">
+                        <button id="attach-btn" class="icon-btn">
+                            <i class="material-icons">attach_file</i>
+                        </button>
+                        <input type="file" id="file-input" style="display: none;" accept="image/*,audio/*">
+                        
+                        <div class="input-wrapper">
+                            <input type="text" id="message-input" placeholder="Сообщение">
+                            <button id="emoji-btn" class="icon-btn">
+                                <i class="material-icons">sentiment_satisfied_alt</i>
+                            </button>
+                        </div>
+                        
+                        <button id="send-btn" class="icon-btn primary">
+                            <i class="material-icons">send</i>
+                        </button>
+                    </footer>
+                </div>
+            </main>
+        </div>
+        
+        
+        <div id="new-chat-modal" class="modal">
+            <div class="modal-content">
+                <h2>Новый чат</h2>
+                <input type="search" id="user-search" placeholder="Поиск пользователей">
+                <div id="users-list" class="users-list">
+                    
+                </div>
+                <button class="close-modal">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="logout-btn" class="icon-btn" onclick="logout()" title="Выйти">
+        <i class="material-icons">exit_to_app</i>
+    </button>
+    
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <!-- <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/app.js"></script> -->
+    <script src="js/main.js"></script>
+</body>
+</html>

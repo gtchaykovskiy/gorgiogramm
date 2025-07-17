@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Копируем package.json
+COPY backend/package*.json ./
+
+# Используем npm install вместо npm ci
+RUN npm install --production
+
+# Копируем исходный код
+COPY backend/ .
+
+# Создаем директории
+RUN mkdir -p uploads data
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
