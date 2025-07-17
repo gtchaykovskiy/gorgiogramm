@@ -1,8 +1,9 @@
+version: '3.8'
+
 services:
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile.backend
+      context: ./backend
     ports:
       - "3000:3000"
     volumes:
@@ -10,16 +11,8 @@ services:
       - ./data:/app/data
     environment:
       - NODE_ENV=production
-      - JWT_SECRET=your-secret-key-change-in-production
+      - JWT_SECRET=super-secret-key
     restart: unless-stopped
-    # Ограничения для 1 ядра
-    deploy:
-      resources:
-        limits:
-          cpus: '0.8'
-          memory: 512M
-        reservations:
-          memory: 256M
 
   frontend:
     image: nginx:alpine
@@ -31,11 +24,3 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
-    # Ограничения для nginx
-    deploy:
-      resources:
-        limits:
-          cpus: '0.2'
-          memory: 128M
-        reservations:
-          memory: 64M
