@@ -544,11 +544,22 @@ async function loadChatMessages(chatId) {
         const response = await fetch(`/api/chats/${chatId}/messages`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
-        
         const messagesList = await response.json();
         messages.set(chatId, messagesList);
         displayChat(chatId);
-        
+
+        // <-- ДОБАВЬ ЭТО!
+        if (messagesList.length > 0) {
+            const lastMsgId = messagesList[messagesList.length - 1].id;
+            await fetch(`/api/chats/${chatId}/read`, {
+                method: 'POST',
+                headers: { 
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ messageId: lastMsgId })
+            });
+        }
     } catch (error) {
         console.error('Failed to load messages:', error);
     }
@@ -1037,20 +1048,13 @@ async function createPrivateChat(targetUserId) {
             },
             body: JSON.stringify({ targetUserId })
         });
-        
         const chat = await response.json();
         document.getElementById('new-chat-modal').classList.remove('active');
-        
         await loadChats();
-        
-        // Открываем созданный чат
-        setTimeout(() => {
-            const chatItems = document.querySelectorAll('.chat-item');
-            if (chatItems.length > 0) {
-                chatItems[0].click();
-            }
-        }, 100);
-        
+        // Найти этот чат и открыть его!
+        if (chats.has(chat.id)) {
+            openChat(chat.id);
+        }
     } catch (error) {
         console.error('Failed to create chat:', error);
     }
@@ -1067,11 +1071,9 @@ function getAvatarUrl(user) {
 function formatTime(timestamp) {
     if (!timestamp) return '';
     const date = new Date(timestamp);
-    const now = new Date();
-    
-    if (date.toDateString() === now.toDateString()) {
-        return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    }
+    // Используй только время, не дату
+    return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
     
     return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
 }
