@@ -598,8 +598,8 @@ function renderMessage(message, animate = false) {
         content = `<div class="message-text">${escapeHtml(message.content)}</div>`;
     } else if (message.type === 'image') {
         content = `
-            <img class="message-image" src="http://localhost:3000${message.file_url}" 
-                 onclick="openImageModal('http://localhost:3000${message.file_url}')"
+            <img class="message-image" src="/api/${message.file_url}" 
+                 onclick="openImageModal('/api/${message.file_url}')"
                  style="max-width: 300px; max-height: 400px; border-radius: 8px; cursor: pointer;">
             <div class="message-text">${escapeHtml(message.content)}</div>
         `;
@@ -1058,7 +1058,7 @@ async function createPrivateChat(targetUserId) {
 
 // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
 function getAvatarUrl(user) {
-    if (user.avatar) return user.avatar.startsWith('http') ? user.avatar : `http://localhost:3000${user.avatar}`;
+    if (user.avatar) return user.avatar.startsWith('http') ? user.avatar : `/api/${user.avatar}`;
     const name = user.displayName || user.name || '?';
     const color = user.id ? ['4CAF50', '2196F3', 'FF9800', '9C27B0'][user.id % 4] : '999999';
     return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%23${color}'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='white' font-size='18'%3E${name[0].toUpperCase()}%3C/text%3E%3C/svg%3E`;
