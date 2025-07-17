@@ -541,7 +541,7 @@ async function openChat(chatId) {
 
 async function loadChatMessages(chatId) {
     try {
-        const response = await fetch(`http://localhost:3000/api/chats/${chatId}/messages`, {
+        const response = await fetch(`/api/chats/${chatId}/messages`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         
@@ -748,7 +748,7 @@ function showReactionPicker(event, messageId) {
 
 async function toggleReaction(messageId, reaction) {
     try {
-        const response = await fetch(`http://localhost:3000/api/messages/${messageId}/reactions`, {
+        const response = await fetch(`/api/messages/${messageId}/reactions`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -824,7 +824,7 @@ async function saveEditedMessage() {
     if (!content) return;
     
     try {
-        const response = await fetch(`http://localhost:3000/api/messages/${editingMessageId}`, {
+        const response = await fetch(`/api/messages/${editingMessageId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -847,7 +847,7 @@ window.deleteMessage = async function(messageId) {
     if (!confirm('Удалить сообщение?')) return;
     
     try {
-        const response = await fetch(`http://localhost:3000/api/messages/${messageId}`, {
+        const response = await fetch(`/api/messages/${messageId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
