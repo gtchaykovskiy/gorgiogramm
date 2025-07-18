@@ -1070,15 +1070,20 @@ function getAvatarUrl(user) {
 
 function formatTime(timestamp) {
     if (!timestamp) return '';
+    
+    // Исправление для формата SQLite
+    if (typeof timestamp === 'string' && timestamp.includes(' ')) {
+        timestamp = timestamp.replace(' ', 'T') + 'Z';
+    }
+    
     const date = new Date(timestamp);
-    // Используй только время, не дату
-    return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    if (isNaN(date)) return '';
+    
+    return date.toLocaleTimeString('ru-RU', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false
+    });
 }
 
 // ===== МОДАЛЬНОЕ ОКНО ДЛЯ ИЗОБРАЖЕНИЙ =====
