@@ -86,7 +86,6 @@ db.serialize(() => {
         FOREIGN KEY (user_id) REFERENCES users(id)
     )`);
 
-    // Исправление формата времени в SQLite
     db.run(`CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         chat_id INTEGER NOT NULL,
@@ -97,7 +96,7 @@ db.serialize(() => {
         reply_to_id INTEGER,
         is_edited BOOLEAN DEFAULT 0,
         is_deleted BOOLEAN DEFAULT 0,
-        created_at DATETIME DEFAULT (datetime('now', 'localtime')),  // Исправлено здесь
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (chat_id) REFERENCES chats(id),
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (reply_to_id) REFERENCES messages(id)
