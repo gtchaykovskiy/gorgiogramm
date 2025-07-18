@@ -309,10 +309,6 @@ function handlePaste(e) {
             uploadFile(blob);
         }
     }
-    // Для мобильных: показываем уведомление о загрузке
-    if (/Mobi|Android/i.test(navigator.userAgent) && items.length > 0) {
-        alert('Изображение загружается...');
-    }
 }
 
 // ===== ЗАГРУЗКА ФАЙЛОВ =====
@@ -545,7 +541,7 @@ async function openChat(chatId) {
 
 async function loadChatMessages(chatId) {
     try {
-        const response = await fetch(`/api/chats/${chatId}/messages?limit=100`, {
+        const response = await fetch(`/api/chats/${chatId}/messages`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         const messagesList = await response.json();
@@ -1066,9 +1062,7 @@ async function createPrivateChat(targetUserId) {
 
 // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
 function getAvatarUrl(user) {
-    if (user.avatar) {
-        return user.avatar.startsWith('http') ? user.avatar : `${API_BASE}${user.avatar}`;
-    }
+    if (user.avatar) return user.avatar.startsWith('http') ? user.avatar : `/api/${user.avatar}`;
     const name = user.displayName || user.name || '?';
     const color = user.id ? ['4CAF50', '2196F3', 'FF9800', '9C27B0'][user.id % 4] : '999999';
     return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%23${color}'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='white' font-size='18'%3E${name[0].toUpperCase()}%3C/text%3E%3C/svg%3E`;
@@ -1076,20 +1070,9 @@ function getAvatarUrl(user) {
 
 function formatTime(timestamp) {
     if (!timestamp) return '';
-    
-    // Исправление для формата SQLite
-    if (typeof timestamp === 'string' && timestamp.includes(' ')) {
-        timestamp = timestamp.replace(' ', 'T') + 'Z';
-    }
-    
     const date = new Date(timestamp);
-    if (isNaN(date)) return '';
-    
-    return date.toLocaleTimeString('ru-RU', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false
-    });
+    // Используй только время, не дату
+    return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 }
 
 function escapeHtml(text) {
@@ -1329,22 +1312,3 @@ if (!window.WebSocket) {
     console.error('WebSocket not supported');
     alert('Ваш браузер не поддерживает WebSocket. Обновите браузер.');
 }
-
-// Добавляем обработку ресайза окна
-window.addEventListener('resize', handleWindowResize);
-
-function handleWindowResize() {
-    // Обновляем отображение чатов при изменении размера
-    if (window.innerWidth > 768) {
-        document.querySelector('.sidebar').classList.add('active');
-        document.querySelector('.chat-area').classList.remove('active');
-    }
-    renderChatsList();
-}
-
-// Добавляем обработчик для кнопки "Назад" в мобильной версии
-document.querySelector('.mobile-back')?.addEventListener('click', () => {
-    document.querySelector('.chat-area').classList.remove('active');
-    document.querySelector('.sidebar').classList.add('active');
-    currentChatId = null;
-});
