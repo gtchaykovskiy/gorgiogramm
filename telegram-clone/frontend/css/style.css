@@ -792,3 +792,116 @@ body {
     display: block;
     margin-bottom: 0.5rem;
 }
+
+/* Добавляем адаптивную верстку */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        max-height: 50vh;
+    }
+    
+    .chat-area {
+        width: 100%;
+    }
+    
+    .mobile-back {
+        display: block !important;
+    }
+    
+    .chat-header {
+        padding: 10px;
+    }
+    
+    .chat-item {
+        padding: 8px;
+    }
+    
+    .chat-footer {
+        padding: 8px;
+    }
+    
+    .message {
+        max-width: 85%;
+    }
+    
+    .message-image {
+        max-width: 100% !important;
+    }
+    
+    .dropdown-menu {
+        width: 90%;
+        left: 5%;
+        top: 60px;
+    }
+    
+    .emoji-picker {
+        width: 90% !important;
+        grid-template-columns: repeat(6, 1fr) !important;
+        max-height: 150px !important;
+    }
+    
+    .reaction-picker {
+        transform: translateX(-50%);
+        left: 50% !important;
+        top: auto !important;
+        bottom: 70px;
+    }
+}
+
+/* Исправляем отображение времени */
+.message-time {
+    font-size: 0.75rem;
+    color: #666;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* Улучшаем мобильный UX */
+.mobile-back {
+    display: none;
+}
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 480px) {
+    .auth-container {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .chat-item-info {
+        max-width: calc(100% - 50px);
+    }
+    
+    #message-input {
+        padding: 8px 35px 8px 8px;
+    }
+    
+    .emoji-btn, .attach-btn {
+        padding: 5px;
+    }
+    
+    .message-actions button {
+        padding: 3px;
+    }
+}
+
+/* Исправление скролла на мобильных */
+.messages-container {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Анимации для улучшения UX */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message {
+    animation: fadeIn 0.3s ease forwards;
+}
